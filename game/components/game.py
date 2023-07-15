@@ -44,8 +44,8 @@ class Game:
     # o sea aqui deberia llamar a los updates de mis otros objetos
     # si tienes un spaceship; el spaceship deberia tener un "update" method que llamamos desde aqui
     def update(self):
-        user_input = pygame.key.get_pressed()
-        self.spaceship.update(user_input)
+        events = pygame.key.get_pressed()
+        self.spaceship.update(events)
 
     # este metodo "dibuja o renderiza o refresca mis cambios en la pantalla del juego"
     # aca escribo ALGO de la logica "necesaria" -> repartimos responsabilidades entre clases
