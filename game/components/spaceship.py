@@ -6,14 +6,14 @@ from game.utils.constants import SPACESHIP, SCREEN_WIDTH, SCREEN_HEIGHT, FONT_ST
 class Spaceship(Sprite):
     
     X_POS = (SCREEN_WIDTH //2) - 20
-    Y_POS = (SCREEN_HEIGHT //2) + 80
+    Y_POS = (SCREEN_HEIGHT //2) + 200
     
-    def __init__(self, mensaje):
+    def __init__(self, name):
         self.image = SPACESHIP
         self.image = pygame.transform.scale(self.image, (40, 60))
         self.rect = self.image.get_rect()
         self.font = pygame.font.Font(FONT_STYLE, 15)
-        self.text = self.font.render(mensaje, True, (255, 0, 0))
+        self.text = self.font.render(name, True, (255, 255, 255))
         self.text_rect = self.text.get_rect()
         self.x_pos_spaceship = self.X_POS
         self.y_pos_spaceship = self.Y_POS
@@ -23,7 +23,8 @@ class Spaceship(Sprite):
 
     def move_up(self):
         if self.y_pos_spaceship > 0:    
-            self.y_pos_spaceship -= self.scroll     
+            self.y_pos_spaceship -= self.scroll 
+            print(f"ES: {self.x_pos_spaceship, self.y_pos_spaceship} cambia eje Y")    
         else:
             self.y_pos_spaceship = self.stop
 
@@ -44,6 +45,7 @@ class Spaceship(Sprite):
     def move_left(self):
         if self.x_pos_spaceship > 0:
             self.x_pos_spaceship -= self.scroll
+            print(f"ES: {self.x_pos_spaceship, self.y_pos_spaceship} cambia eje X")
         else:
             self.x_pos_spaceship = self.stop
 

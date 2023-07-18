@@ -2,42 +2,36 @@ import pygame
 import random
 
 from pygame.sprite import Sprite
-from game.utils.constants import ENEMY_1, FONT_STYLE
+from game.utils.constants import ENEMY_1, FONT_STYLE, SCREEN_WIDTH, SCREEN_HEIGHT
 
 class Enemy(Sprite):
-    def __init__(self, name, scroll):
+    def __init__(self, name, scroll, type_enemy):
         super().__init__()
         #Imagen
         self.image = ENEMY_1
-        self.enemy_list =[]
+        self.name = name
+        self.type_enemy = type_enemy
         self.image = pygame.transform.scale(self.image, (50, 70))
         self.rect = self.image.get_rect()
-        #Letra
-        self.font = pygame.font.Font(FONT_STYLE, 15)
-        self.text_one = self.font.render(name, True, (255, 0, 0))
-        self.text_two = self.font.render(name, True, (255, 0, 0))
-        self.text_rect = self.text_one, self.text_two.get_rect()
         #Posición
-        self.rect_x = random.randint(0, 550)
-        self.rect_y = random.randint(20, 200)
+        self.x_pos = random.randint(0, 550)
+        self.y_pos = random.randint(20, 200)
         self.scroll = scroll
-  
-    def enemys(self):
-        for i in range(2):
-            self.enemy_list.add()
+        self.initial = 0
 
     def update(self):
-        pass
-        #self.x_pos_spaceship = self.scroll
-
-    def draw_text(self, screen):
-        screen.blit(self.text_one, (self.rect_x + 10, self.rect_y - 20))
-        screen.blit(self.text_two, (self.rect_x + 20, self.rect_y - 40))
+        if self.type_enemy == 1:
+            self.x_pos += self.scroll
+            if self.x_pos > SCREEN_WIDTH:
+                self.x_pos = self.initial
+        
+        if self.type_enemy == 2:
+            self.x_pos += self.scroll
+            if self.x_pos < self.initial:
+                self.x_pos = SCREEN_WIDTH
 
     def draw(self, screen):
-        screen.blit(self.image, (self.rect_x, self.rect_y))
-
-
-
-    #self.dv1 = Enemy("dv1", 10)
-    #self.dv2 = Enemy("dv2", 20)
+        screen.blit(self.image, (self.x_pos, self.y_pos))
+        font = pygame.font.Font(None, 20)
+        label = font.render(self.name, True, (255, 0, 0))
+        screen.blit(label, (self.x_pos + 10, self.y_pos - 20))

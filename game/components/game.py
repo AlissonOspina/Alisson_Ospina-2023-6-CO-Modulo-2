@@ -1,4 +1,5 @@
 import pygame
+import random
 
 # game.utils.constants -> es un modulo donde tengo "objetos" en memoria como el BG (background)...etc
 #   tambien tenemos valores constantes como el title, etc
@@ -9,7 +10,7 @@ from game.components.adversary import Enemy
 # Game es la definicion de la clase (plantilla o molde para sacar objetos)
 # self es una referencia que indica que el metodo o el atributo es de cada "objeto" de la clase Game
 class Game:
-    def __init__(self):
+    def __init__(self, enemies = 5):
         pygame.init() # este es el enlace con la libreria pygame para poder mostrar la pantalla del juego
         pygame.display.set_caption(TITLE)
         pygame.display.set_icon(ICON)
@@ -19,9 +20,10 @@ class Game:
         self.game_speed = 10
         self.x_pos_bg = 0
         self.y_pos_bg = 0
-        self.spaceship = Spaceship("Player: xwing")
-        self.enemy_one = Enemy("Enemy: dv1", 2)
-        self.enemy_two = Enemy("Enemy: dv2", -2)
+        self.type = 1
+        self.spaceship = Spaceship("Player: one")
+        self.list_enemies = []
+        self.enemies = enemies
 
 
 # este es el "game loop"
@@ -29,7 +31,7 @@ class Game:
     def run(self):
         self.playing = True
         while self.playing:
-            print(f"I am still in the game loop")
+            #print(f"I am still in the game loop")
             self.handle_events()
             self.update()
             self.draw()
@@ -50,7 +52,15 @@ class Game:
     def update(self):
         events = pygame.key.get_pressed()
         self.spaceship.update(events)
-        self.enemy_one.update()
+        
+        for enemy in self.list_enemies:
+            enemy.update()
+
+        if len(self.list_enemies) < self.enemies:
+            enemy_name = f"Enemy: n{len(self.list_enemies) +1}"
+            new_enemy = Enemy(enemy_name, random.choice([5, -5]), self.type +1)
+            self.list_enemies.append(new_enemy)
+
 
 # Este metodo "dibuja o renderiza o refresca mis cambios en la pantalla del juego"
                 # aca escribo ALGO de la logica "necesaria" -> repartimos responsabilidades entre clases
@@ -61,9 +71,10 @@ class Game:
         self.screen.fill((255, 255, 255)) # esta tupla (255, 255, 255) representa un codigo de color: blanco
         self.draw_background()
         self.spaceship.draw(self.screen)
-        self.enemy_one.draw(self.screen)
-        self.enemy_two.draw(self.screen)
-        self.enemy_one.draw_text(self.screen)
+        #self.enemy_one.draw(self.screen)
+        #self.enemy_two.draw(self.screen)
+        for enemy in self.list_enemies:
+            enemy.draw(self.screen)
         pygame.display.update()
         pygame.display.flip()
 
