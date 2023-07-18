@@ -2,7 +2,7 @@ import pygame
 import random
 
 from pygame.sprite import Sprite
-from game.utils.constants import ENEMY_1, FONT_STYLE, SCREEN_WIDTH, SCREEN_HEIGHT
+from game.utils.constants import ENEMY_1, SCREEN_WIDTH, SCREEN_HEIGHT
 
 class Enemy(Sprite):
     def __init__(self, name, scroll, type_enemy):
@@ -20,15 +20,13 @@ class Enemy(Sprite):
         self.initial = 0
 
     def update(self):
-        if self.type_enemy == 1:
-            self.x_pos += self.scroll
-            if self.x_pos > SCREEN_WIDTH:
-                self.x_pos = self.initial
-        
-        if self.type_enemy == 2:
-            self.x_pos += self.scroll
-            if self.x_pos < self.initial:
-                self.x_pos = SCREEN_WIDTH
+        self.x_pos += self.scroll
+        if self.x_pos > SCREEN_WIDTH:
+            self.x_pos = self.initial
+            self.y_pos = random.randint(20, 200)
+        if self.x_pos < self.initial:
+            self.x_pos = SCREEN_WIDTH
+            self.y_pos = random.randint(20, 200)
 
     def draw(self, screen):
         screen.blit(self.image, (self.x_pos, self.y_pos))

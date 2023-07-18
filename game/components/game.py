@@ -3,7 +3,7 @@ import random
 
 # game.utils.constants -> es un modulo donde tengo "objetos" en memoria como el BG (background)...etc
 #   tambien tenemos valores constantes como el title, etc
-from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, DEFAULT_TYPE
+from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, BULLET
 from game.components.spaceship import Spaceship
 from game.components.adversary import Enemy
 
@@ -52,6 +52,7 @@ class Game:
     def update(self):
         events = pygame.key.get_pressed()
         self.spaceship.update(events)
+        self.spaceship.update_shoot()
         
         for enemy in self.list_enemies:
             enemy.update()
@@ -71,8 +72,7 @@ class Game:
         self.screen.fill((255, 255, 255)) # esta tupla (255, 255, 255) representa un codigo de color: blanco
         self.draw_background()
         self.spaceship.draw(self.screen)
-        #self.enemy_one.draw(self.screen)
-        #self.enemy_two.draw(self.screen)
+        #self.bullet.draw(self.screen)
         for enemy in self.list_enemies:
             enemy.draw(self.screen)
         pygame.display.update()

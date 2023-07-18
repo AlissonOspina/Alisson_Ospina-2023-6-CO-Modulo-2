@@ -1,7 +1,7 @@
 import pygame
 
 from pygame.sprite import Sprite
-from game.utils.constants import SPACESHIP, SCREEN_WIDTH, SCREEN_HEIGHT, FONT_STYLE
+from game.utils.constants import SPACESHIP, SCREEN_WIDTH, SCREEN_HEIGHT, FONT_STYLE, BULLET
 
 class Spaceship(Sprite):
     
@@ -10,16 +10,29 @@ class Spaceship(Sprite):
     
     def __init__(self, name):
         self.image = SPACESHIP
+        self.image_b = BULLET
+    #image1
         self.image = pygame.transform.scale(self.image, (40, 60))
         self.rect = self.image.get_rect()
+    #image2
+        self.image_b = pygame.transform.scale(self.image_b, (40, 60))
+        self.rect_b = self.image_b.get_rect()
+    #texto
         self.font = pygame.font.Font(FONT_STYLE, 15)
         self.text = self.font.render(name, True, (255, 255, 255))
         self.text_rect = self.text.get_rect()
+    #posición
         self.x_pos_spaceship = self.X_POS
         self.y_pos_spaceship = self.Y_POS
+        self.y_pos = self.Y_POS
         self.scroll = 5
         self.stop = 0
 
+
+    def shoot(self):
+        self.y_pos -= 25
+        if self.y_pos < 0:
+            self.y_pos = self.y_pos_spaceship
 
     def move_up(self):
         if self.y_pos_spaceship > 0:    
@@ -59,7 +72,12 @@ class Spaceship(Sprite):
         elif events[pygame.K_LEFT]:
             self.move_left()
         
+    def update_shoot(self):
+        self.shoot()
+
     def draw(self, screen): #lo recibe como un parametro a screen
+        screen.blit(self.image_b, (self.x_pos_spaceship + 1, self.y_pos - 40))
         screen.blit(self.image, (self.x_pos_spaceship, self.y_pos_spaceship)) #blit dibujar en pantalla
-        screen.blit(self.text, (self.x_pos_spaceship + 10, self.y_pos_spaceship - 20))
+        screen.blit(self.text, (self.x_pos_spaceship + 40, self.y_pos_spaceship - 10))
+        #screen.blit(self.image_b, (self.x_pos_spaceship + 1, self.y_pos_spaceship - 40))
        
