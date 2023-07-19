@@ -52,15 +52,18 @@ class Game:
     def update(self):
         events = pygame.key.get_pressed()
         self.spaceship.update(events)
-        self.spaceship.update_shoot()
         
         for enemy in self.list_enemies:
             enemy.update()
 
         if len(self.list_enemies) < self.enemies:
             enemy_name = f"Enemy: n{len(self.list_enemies) +1}"
-            new_enemy = Enemy(enemy_name, random.choice([5, -5]), self.type +1)
+            new_enemy = Enemy(enemy_name, random.choice([6, -6]), self.type +1)
             self.list_enemies.append(new_enemy)
+
+    def collision(self, bullet, adversary):
+        if self.rect.colliderect(adversary.rect):
+            print("POOOOOOOOOM")
 
 
 # Este metodo "dibuja o renderiza o refresca mis cambios en la pantalla del juego"
