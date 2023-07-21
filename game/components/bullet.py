@@ -1,8 +1,7 @@
 import pygame
-import random
 
 from pygame.sprite import Sprite
-from game.utils.constants import SCREEN_WIDTH, SCREEN_HEIGHT, BULLET
+from game.utils.constants import BULLET
 
 class Bullet(Sprite):
     def __init__(self, x_pos_spaceship, y_pos_spaceship):
@@ -14,9 +13,6 @@ class Bullet(Sprite):
         self.y_pos = y_pos_spaceship
         self.scroll = 25
 
-    #def collision(self):
-
-
     def update(self):
         self.y_pos -= self.scroll
         if self.y_pos < 0:
@@ -24,4 +20,3 @@ class Bullet(Sprite):
 
     def draw(self, screen):
         screen.blit(self.image, (self.x_pos + 10, self.y_pos - 5))
-        

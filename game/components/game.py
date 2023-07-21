@@ -6,9 +6,10 @@ import random
 from game.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, BULLET
 from game.components.spaceship import Spaceship
 from game.components.adversary import Enemy
+from game.components.game_over import Menu
 
 # Game es la definicion de la clase (plantilla o molde para sacar objetos)
-# self es una referencia que indica que el metodo o el atributo es de cada "objeto" de la clase Game
+        # self es una referencia que indica que el metodo o el atributo es de cada "objeto" de la clase Game
 class Game:
     def __init__(self, enemies = 5):
         pygame.init() # este es el enlace con la libreria pygame para poder mostrar la pantalla del juego
@@ -24,7 +25,7 @@ class Game:
         self.spaceship = Spaceship("Player: one")
         self.list_enemies = []
         self.enemies = enemies
-
+        self.menu = Menu("__GAME_OVER__", self.screen)
 
 # este es el "game loop"
                 # # Game loop: events - update - draw
@@ -49,22 +50,19 @@ class Game:
 # Aca escribo ALGO de la logica "necesaria" -> repartimos responsabilidades entre clases
                 # o sea aqui deberia llamar a los updates de mis otros objetos
                                             # si tienes un spaceship; el spaceship deberia tener un "update" method que llamamos desde aqui
+    
     def update(self):
         events = pygame.key.get_pressed()
         self.spaceship.update(events)
         
+        self.spaceship.collision(self.list_enemies)
         for enemy in self.list_enemies:
             enemy.update()
 
         if len(self.list_enemies) < self.enemies:
             enemy_name = f"Enemy: n{len(self.list_enemies) +1}"
-            new_enemy = Enemy(enemy_name, random.choice([6, -6]), self.type +1)
+            new_enemy = Enemy(enemy_name, random.choice([6, -6]))
             self.list_enemies.append(new_enemy)
-
-    def collision(self, bullet, adversary):
-        if self.rect.colliderect(adversary.rect):
-            print("POOOOOOOOOM")
-
 
 # Este metodo "dibuja o renderiza o refresca mis cambios en la pantalla del juego"
                 # aca escribo ALGO de la logica "necesaria" -> repartimos responsabilidades entre clases
@@ -75,7 +73,6 @@ class Game:
         self.screen.fill((255, 255, 255)) # esta tupla (255, 255, 255) representa un codigo de color: blanco
         self.draw_background()
         self.spaceship.draw(self.screen)
-        #self.bullet.draw(self.screen)
         for enemy in self.list_enemies:
             enemy.draw(self.screen)
         pygame.display.update()

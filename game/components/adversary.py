@@ -5,12 +5,11 @@ from pygame.sprite import Sprite
 from game.utils.constants import ENEMY_1, SCREEN_WIDTH, SCREEN_HEIGHT
 
 class Enemy(Sprite):
-    def __init__(self, name, scroll, type_enemy):
+    def __init__(self, name, scroll):
         super().__init__()
         #Imagen
         self.image = ENEMY_1
         self.name = name
-        self.type_enemy = type_enemy
         self.image = pygame.transform.scale(self.image, (50, 70))
         self.rect = self.image.get_rect()
         #Posición
@@ -20,13 +19,13 @@ class Enemy(Sprite):
         self.initial = 0
 
     def update(self):
-        self.x_pos += self.scroll
-        if self.x_pos > SCREEN_WIDTH:
-            self.x_pos = self.initial
-            self.y_pos = random.randint(20, 200)
-        if self.x_pos < self.initial:
-            self.x_pos = SCREEN_WIDTH
-            self.y_pos = random.randint(20, 200)
+        self.y_pos += self.scroll
+        if self.y_pos > SCREEN_WIDTH:
+            self.y_pos = self.initial
+            self.x_pos = random.randint(0, 1060)
+        if self.y_pos < -5:
+            self.y_pos = SCREEN_WIDTH
+            self.x_pos = random.randint(0, 1060)
 
     def draw(self, screen):
         screen.blit(self.image, (self.x_pos, self.y_pos))
